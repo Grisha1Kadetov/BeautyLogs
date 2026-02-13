@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 
+	"github.com/Grisha1Kadetov/BeautyLogs/pkg/stringchecker"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -58,27 +59,66 @@ func catch(call *ast.CallExpr, pass *analysis.Pass, config Config) {
 
 	first := true
 	for _, arg := range call.Args {
-		walkStrings(pass, arg, func(pos token.Pos, s string) {
+		walkStrings(pass, arg, func(start token.Pos, end token.Pos, s string) {
+			if first && config.Lowercase {
+				first = false
+				suggest, ok := stringchecker.CheckFirstLowercase(s)
+				if !ok {
+					pass.Report(analysis.Diagnostic{
+						Pos:     start,
+						End:     end,
+						Message: "first letter should be lowercase, suggest: " + strconv.Quote(suggest),
+						SuggestedFixes: []analysis.SuggestedFix{
+							{
+								Message: "change to " + strconv.Quote(suggest),
+								TextEdits: []analysis.TextEdit{
+									{
+										Pos:     start,
+										End:     end,
+										NewText: []byte(strconv.Quote(suggest)),
+									},
+								},
+							},
+						},
+					})
+				}
+			}
+
 			var formatRe = regexp.MustCompile(`%(\[[0-9]+\])?[-+0-9.#]*[a-zA-Z]`) //ignore e.g. %v %s
 			s = formatRe.ReplaceAllString(s, "")
 
-			if first && config.Lowercase {
-				first = false
-			}
 			if config.OnlyEng {
-				
+				if !stringchecker.CheckEnglish(s) {
+					pass.Report(analysis.Diagnostic{
+						Pos:     start,
+						End:     end,
+						Message: "logs should contain only English letters",
+					})
+				}
 			}
 			if config.Special {
-
+				if !stringchecker.CheckSpecial(s, config.IgnoreSpecial) {
+					pass.Report(analysis.Diagnostic{
+						Pos:     start,
+						End:     end,
+						Message: "logs should not contain special characters",
+					})
+				}
 			}
-			if config.Sensitive{
-
+			if config.Sensitive {
+				if !stringchecker.CheckSensitive(s, config.SensitiveKeys) {
+					pass.Report(analysis.Diagnostic{
+						Pos:     start,
+						End:     end,
+						Message: "logs should not contain sensitive data",
+					})
+				}
 			}
 		})
 	}
 }
 
-func walkStrings(pass *analysis.Pass, expr ast.Expr, onString func(pos token.Pos, s string)) {
+func walkStrings(pass *analysis.Pass, expr ast.Expr, onString func(start token.Pos, end token.Pos, s string)) {
 	ast.Inspect(expr, func(n ast.Node) bool {
 		e, ok := n.(ast.Expr)
 		if !ok {
@@ -87,21 +127,20 @@ func walkStrings(pass *analysis.Pass, expr ast.Expr, onString func(pos token.Pos
 
 		if tv, ok := pass.TypesInfo.Types[e]; ok && tv.Value != nil {
 			if tv.Type != nil && tv.Type.String() == "string" {
-				onString(e.Pos(), constant.StringVal(tv.Value))
+				onString(e.Pos(), e.End(), constant.StringVal(tv.Value))
 				return false
 			}
 		}
 
 		if lit, ok := e.(*ast.BasicLit); ok && lit.Kind == token.STRING {
 			if s, err := strconv.Unquote(lit.Value); err == nil {
-				onString(lit.Pos(), s)
+				onString(lit.Pos(), lit.End(), s)
 			}
 		}
 
 		return true
 	})
 }
-
 
 func prepareConfig(config Config) Config {
 	if config.SensitiveKeys == nil {

@@ -135,7 +135,7 @@ var DefaultConfig = Config{
 	Lowercase:     true,
 	Special:       true,
 	Sensitive:     true,
-	SensitiveKeys: StringList{"password", "secret", "token", "key", "credential"},
+	SensitiveKeys: StringList{"password", "secret", "token", "key", "credential", "username", "email", "phone"},
 	IgnoreSpecial: RuneMap{':': true, ',': true, '-': true, '.': true, '_': true, '(': true, ')': true},
 	Loggers: []LoggerInfo{
 		{Funcs: StringList{"Printf", "Println", "Print"}, Pkg: "fmt"},
