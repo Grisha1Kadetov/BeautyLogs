@@ -4,32 +4,29 @@ linters:
   default: none
   enable:
     - beautylogs
+  settings:
+    custom:
+      beautylogs:
+        type: "module"
+        description: "BeautyLogs: checks log messages"
+        settings:
+          only-eng: true
+          lowercase: true
+          special-char: true
+          sensitive: true
 
-linters-settings:
-  custom:
-    beautylogs:
-      type: "module"
-      description: "BeautyLogs: checks log messages"
-      settings:
-        only-eng: true
-        lowercase: true
-        special-char: true
-        sensitive: true
+          sensitive-keys:
+            - password
+            - secret
+            - token
+            - key
+            - credential
+            - username
+            - email
+            - phone
 
-        sensitive-keys:
-          - password
-          - secret
-          - token
-          - key
-          - credential
-          - username
-          - email
-          - phone
+          ignore-special-chars: ":,.-_()="
 
-        ignore-special-chars: ":,.-_()="
-
-        logger:
-          - "fmt:Printf,Println,Print"
-          - "log/slog:Info,Error,Warn,Debug"
-          - "custom-logger:CustomPrint"
-
+          logger:
+            - "fmt:Printf,Println,Print"
+            - "log/slog:Info,Error,Warn,Debug"

@@ -2,5 +2,5 @@ version: v2.9.0
 
 plugins:
   - module: "github.com/Grisha1Kadetov/BeautyLogs"
-    import: "github.com/Grisha1Kadetov/BeautyLogs/pkg/analyzer"
+    import: "github.com/Grisha1Kadetov/BeautyLogs/pkg/plugin"
     version: v0.1.1
