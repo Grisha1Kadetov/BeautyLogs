@@ -58,8 +58,8 @@ func (rm *RuneMap) Set(v string) error {
 }
 
 type LoggerInfo struct {
-	Funcs StringList `mapstructure:"funcs"`
-	Pkg   string     `mapstructure:"pkg"`
+	Funcs StringList
+	Pkg   string
 }
 
 type LoggerInfos []LoggerInfo
@@ -125,7 +125,7 @@ type Config struct {
 	Sensitive     bool
 	SensitiveKeys StringList
 	IgnoreSpecial RuneMap
-	Loggers       LoggerInfos `mapstructure:"loggers"`
+	Loggers       LoggerInfos
 }
 
 var Analyzer = New()
