@@ -1,0 +1,33 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - beautylogs
+
+linters-settings:
+  custom:
+    beautylogs:
+      type: "module"
+      description: "BeautyLogs linter"
+      settings:
+        only-eng: true
+        lowercase: true
+        special-char: true
+        sensitive: true
+        sensitive-keys:
+          - "password"
+          - "secret"
+          - "token"
+          - "key"
+          - "credential"
+          - "username"
+          - "email"
+          - "phone"
+        ignore-special-chars: ":-_()"
+        loggers:
+          - pkg: "fmt"
+            funcs: ["Printf", "Println", "Print"]
+          - pkg: "go.uber.org/zap"
+            funcs: ["Debug", "Info", "Warn", "Error", "DPanic", "Panic", "Fatal"]
+
