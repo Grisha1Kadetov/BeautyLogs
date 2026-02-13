@@ -136,7 +136,7 @@ var DefaultConfig = Config{
 	Special:       true,
 	Sensitive:     true,
 	SensitiveKeys: StringList{"password", "secret", "token", "key", "credential", "username", "email", "phone"},
-	IgnoreSpecial: RuneMap{':': true, ',': true, '-': true, '.': true, '_': true, '(': true, ')': true},
+	IgnoreSpecial: RuneMap{':': true, ',': true, '-': true, '.': true, '_': true, '(': true, ')': true, '=': true},
 	Loggers: []LoggerInfo{
 		{Funcs: StringList{"Printf", "Println", "Print"}, Pkg: "fmt"},
 		{Pkg: "go.uber.org/zap", Funcs: StringList{
@@ -164,7 +164,7 @@ func New() *analysis.Analyzer {
 
 	a := &analysis.Analyzer{
 		Name: "beautylogs",
-		Doc:  "checks for printf-like functions and their naming",
+		Doc:  "checks for printf-like functions",
 		Run:  func(p *analysis.Pass) (any, error) { return run(p, config) },
 	}
 
@@ -181,8 +181,8 @@ func New() *analysis.Analyzer {
 
 func NewCustom(config Config) *analysis.Analyzer {
 	a := &analysis.Analyzer{
-		Name: "beautylogs-custom",
-		Doc:  "checks for printf-like functions and their naming with custom config",
+		Name: "beautylogs",
+		Doc:  "checks for printf-like functions",
 		Run:  func(p *analysis.Pass) (any, error) { return run(p, config) },
 	}
 	return a

@@ -67,7 +67,7 @@ func catch(call *ast.CallExpr, pass *analysis.Pass, config Config) {
 					pass.Report(analysis.Diagnostic{
 						Pos:     start,
 						End:     end,
-						Message: "first letter should be lowercase, suggest: " + strconv.Quote(suggest),
+						Message: "first letter should be lowercase",
 						SuggestedFixes: []analysis.SuggestedFix{
 							{
 								Message: "change to " + strconv.Quote(suggest),
