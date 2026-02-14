@@ -14,12 +14,12 @@ func init() {
 }
 
 type Settings struct {
-	OnlyEng   *bool `json:"only-eng"`
-	Lowercase *bool `json:"lowercase"`
-	Special   *bool `json:"special-char"`
-	Sensitive *bool `json:"sensitive"`
-	SensitiveKeys []string `json:"sensitive-keys"`
-	IgnoreSpecialChars *string `json:"ignore-special-chars"`
+	OnlyEng            *bool    `json:"only-eng"`
+	Lowercase          *bool    `json:"lowercase"`
+	Special            *bool    `json:"special-char"`
+	Sensitive          *bool    `json:"sensitive"`
+	SensitiveKeys      []string `json:"sensitive-keys"`
+	IgnoreSpecialChars *string  `json:"ignore-special-chars"`
 	// logger:
 	//   - "fmt:Printf,Println,Print"
 	//   - "log/slog:Info,Error"

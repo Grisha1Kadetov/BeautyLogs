@@ -8,15 +8,15 @@ import (
 
 func TestCheckFirstLowercase(t *testing.T) {
 	tests := []struct {
-		in      string
-		want    string
-		wantOK  bool
+		in     string
+		want   string
+		wantOK bool
 	}{
 		{"", "", true},
 		{"hello", "hello", true},
 		{"Hello", "hello", false},
 		{"  Hello", "  hello", false},
-		{"123", "123", true}, 
+		{"123", "123", true},
 		{"😊Hello", "😊hello", false},
 	}
 
@@ -35,9 +35,9 @@ func TestCheckEnglish(t *testing.T) {
 		want bool
 	}{
 		{"Hello world", true},
-		{"Hello123", true},       
-		{"Привет", false},        
-		{"HelloПривет", false},   
+		{"Hello123", true},
+		{"Привет", false},
+		{"HelloПривет", false},
 		{"é", true},
 	}
 

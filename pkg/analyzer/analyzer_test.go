@@ -66,7 +66,7 @@ func TestAnalyzerSensitiveOff(t *testing.T) {
 func TestAnalyzerSpecial(t *testing.T) {
 	t.Parallel()
 	config := analyzer.DefaultConfig
-	config.IgnoreSpecial = map[rune]any{'#' : true}
+	config.IgnoreSpecial = map[rune]any{'#': true}
 	a := analyzer.NewCustom(config)
 	analysistest.Run(t, analysistest.TestData(), a, "special")
 }
