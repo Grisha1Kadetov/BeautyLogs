@@ -69,6 +69,8 @@ go build -o beautylogs ./cmd/beautylogs
 - ignore-special-chars — строка из разрешённых рун для **`special-char`**
 - logger можно указывать несколько раз формат: `<пакет>:<функция1,функция2,...>`
 
+---
+
 ## Интеграция с golangci-lint (module plugin)
 
 ### Сборка кастомного golangci-lint
@@ -94,8 +96,6 @@ golangci-lint custom -v
 
 В результате будет создан файл `./custom-gcl`.
 
----
-
 ### Использование
 
 Запуск линтера:
@@ -103,8 +103,6 @@ golangci-lint custom -v
 ```bash
 ./custom-gcl run ./...
 ```
-
----
 
 ### Пример конфигурации `.golangci.yml`
 
